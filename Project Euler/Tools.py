@@ -433,7 +433,7 @@ def v_p(n, p):
     return n_tot
 
 
-# --- Miller-Rabin primality test----------------------------------------------------------------
+# --- Miller-Rabin primality test.py----------------------------------------------------------------
 def miller_rabin(n, n_repeat=20):
     """
     Check n for primality:  Example:

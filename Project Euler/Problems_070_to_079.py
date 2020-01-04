@@ -41,9 +41,9 @@ for i in l_erato:
 
 s = 0
 for i in range(2, 10**6+1):
-    l = decompose_tout(i, l_erato)
+    ll = decompose_tout(i, l_erato)
     p = 1
-    for i, k in l:
+    for i, k in ll:
         p *= (i ** (k-1)) * d[i]
     s += p
 
@@ -75,7 +75,7 @@ print(nb)
 l_fact = [1]
 for i in range(1, 10):
     l_fact.append(l_fact[-1] * i)
-print(l_fact)
+# print(l_fact)
 
 
 def next_one(n):
@@ -89,13 +89,13 @@ def next_one(n):
 nb = 0
 for j in range(2, 1000000):
     i = j
-    l = []
-    while i not in l:
-        l.append(i)
+    ll = []
+    while i not in ll:
+        ll.append(i)
         i = next_one(i)
-        if len(l) > 60:
+        if len(ll) > 60:
             break
-    if len(l) == 60:
+    if len(ll) == 60:
         nb += 1
 print(nb)
 

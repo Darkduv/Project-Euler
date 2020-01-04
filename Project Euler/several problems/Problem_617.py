@@ -27,7 +27,7 @@ def test(n, e, a0):
             l.append(a0)
         a0 = min(a0**e, n-a0**e)
     return False, []
-# l_5_3 = [(a, test(a, 3, 5)[1]) for a in f(5, 3, 10**18)  if test(a, 3, 5)[0] ]
+# l_5_3 = [(a, test.py(a, 3, 5)[1]) for a in f(5, 3, 10**18)  if test.py(a, 3, 5)[0] ]
 # len(l_5_3) == 2
 # l_5_3 == [(1953130, [5, 125]), (1953250, [5, 125])]
 

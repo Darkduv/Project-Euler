@@ -31,7 +31,6 @@ while abs(s - sm) > 1:
     s = sum([(300 - k) * r**(k-1) for k in range(1, sn+1)])
     r += d if s > sm else -d
     d /= 2
-
 print("Answer to PE 235 = %.12f" % r)  # 1.002322108633
 
 # %% Problem 243

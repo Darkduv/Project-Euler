@@ -130,7 +130,7 @@ def is_prime(n):
     return True
 
 
-# --- Miller-Rabin primality test----------------------------------------------------------------
+# --- Miller-Rabin primality test.py----------------------------------------------------------------
 def miller_rabin(n):
     """
     Check n for primality:  Example:

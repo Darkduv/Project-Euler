@@ -7,7 +7,7 @@ n = 120
 
 while n < 10 ** 12:
     b, n = 3 * b + 2 * n - 2, 4 * b + 3 * n - 3
-print(b)
+print(b)  # sol = 756872327473
 
 # %% Problem 102
 
@@ -15,7 +15,7 @@ from math import atan, pi
 
 from os import chdir
 
-chdir("/Users/maximin/Desktop/Euler")
+chdir("/Users/maximin/Desktop/Euler/linked_files")
 
 with open('p102_triangles.txt', 'r') as f:
     l = []
@@ -41,20 +41,16 @@ def arg(a, b):
         return theta
 
 
-l_arg = []
-for el in l:
-    ll = []
-    for i in range(3):
-        ll.append(arg(*el[2 * i:2 * i + 2]))
-    l_arg.append(ll)
+def origin_is_in(l_arg):
+    l_arg.sort()
+    return l_arg[1] - l_arg[0] <= pi and l_arg[2] - l_arg[1] <= pi and l_arg[0] - l_arg[2] + 2 * pi <= pi
 
 n_in = 0
-for el_arg in l_arg:
-    el_arg.sort()
-    if el_arg[1] - el_arg[0] <= pi and el_arg[2] - el_arg[1] <= pi and el_arg[0] - el_arg[2] + 2 * pi <= pi:
-        n_in += 1
+for el in l:
+    ll = [arg(*el[2 * i:2 * i + 2]) for i in range(3)]
+    n_in += origin_is_in(ll)
 
-print(n_in)
+print(n_in)  # sol = 228
 
 
 # %% Problem 103
@@ -248,6 +244,8 @@ while k <= L[-1]:
         if ok2(a):
             print(k)
             break
+
+# sol = 329468
 
 # %% Problem 105
 
@@ -694,7 +692,7 @@ print(f(100))
 C = [1, 1, 1, 2]
 for n in range(4, 51):
     C.append(C[-1] + sum(C[0:-3]) + 1)
-print(C[-1])
+print(C[-1])  # sol = 16475640049
 
 # %% Problem 115
 

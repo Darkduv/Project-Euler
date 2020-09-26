@@ -48,7 +48,8 @@ b = 0
 while 94744 * a >= 15499 * b:
     n += 9699690
     a, b = resilient(n)
-
+sol = b+1
+print(sol) # sol = 892371480
 
 # %% Problem 250
 
@@ -71,4 +72,4 @@ for p in range(250250):
                 nb += 1
     LL.extend(l)
 
-print(nb)
+print(nb)  # sol = 1425480602091519

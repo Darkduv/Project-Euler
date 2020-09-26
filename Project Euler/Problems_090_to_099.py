@@ -49,7 +49,7 @@ for li in l_i:
         b.sort()
         if (a, b) not in L and (b, a) not in L:
             L.append((a, b))
-print(len(L))
+print(len(L))  # sol = 1217
 
 # %% Problem 91
 
@@ -182,25 +182,17 @@ print(1000 * a + 100 * b + 10 * c + d)
 
 
 # %% Problem_94
+maxi = 10**9
 
-def probl_94_1():  # a, a, a+1,   a = p**2+q**2, (a+1)/2 = p**2-q**2,  p**2-3*q**2 = 1
-    def f(p):
-        return p / (3 * int(((p ** 2 - 1) // 3) ** 0.5))
-
-    "p, q = 1, 0 ->  p, q = 2, 1 -> p, q = 7, 4"
-    s = (2 ** 2 + 1 ** 2) * 3 + 1
-    p1, q1 = 2, 1
-    p2, q2 = 7, 4
-    m = f(p2)
-    while p2 ** 2 + q2 ** 2 <= 333333333:
-        s += 3 * (p2 ** 2 + q2 ** 2) + 1
-        a = p1
-        b = q1
-        p = int(((3 * m ** 2 * a ** 2 - 6 * m * b * a + 3 * b ** 2 + 1) / (3 * m ** 2 - 1)) / p1 + 10 ** -4)
-        q = int(m * (p - a) + b + 10 ** -4)
-        p1, q1, p2, q2 = p2, q2, p, q
-        m = f(p2)
-    return s
+def probl_94_1():  # a, a, a+1,   a = 4c^2+1.  3c^2+1=y^2 and perimeter = 4y^2
+    # c, y = 0, 1 -> 1, 2 -> 4, 7.... y_n+1 = 6x_n + y_n-1 and x_n+1=2y_n+x_n-1
+    c0, y0 = 0, 1
+    c1, y1 = 1, 2
+    s = 0  # triangle 1,1,2 is not a triangle ;)
+    while 4*y1**2 <= maxi:
+        s += y1**2
+        y1, c1, y0, c0 = 6*c1+y0, 2*y1+c0, y1, c1
+    return 4*s
 
 
 s_plus = probl_94_1()
@@ -210,29 +202,20 @@ s_plus = probl_94_1()
 
 
 def probl_94_2():  # a, a, a-1
-    def f2(p):
-        return 2 - (3 * p) / (3 * p ** 2 + 1) ** 0.5
-
-    "p, q = 1, 0 ->  p, q = 4, 1 -> p, q = 15, 4"
-    s = (4 ** 2 + 1 ** 2) * 3 - 1
-    p1, q1 = 4, 1
-    p2, q2 = 15, 4
-    m = f2(p2)
-    while p2 ** 2 + q2 ** 2 <= 333333333:
-        s += 3 * (p2 ** 2 + q2 ** 2) - 1
-        a = p1
-        b = q1
-        p = int(((a ** 2 * m ** 2 - 2 * a * b * m + b ** 2 - 1) / (m ** 2 - 4 * m + 1)) / p1 + 10 ** -4)
-        q = int(m * (p - a) + b + 10 ** -4)
-        p1, q1, p2, q2 = p2, q2, p, q
-        m = f2(p2)
-    return s
-
+    # a = 2c^2-1.  3c^2-2=y^2 and perimeter = 2y^2
+    # c, y = 1, 1 -> 3, 5 -> 11, 19.... y_n+1 = 6x_n + y_n-1 and x_n+1=2y_n+x_n-1
+    c0, y0 = 1, 1
+    c1, y1 = 3, 5
+    s = 0  # triangle 1,1,0 is not a triangle ;)
+    while 4 * y1 ** 2 <= maxi:
+        s += y1 ** 2
+        y1, c1, y0, c0 = 6 * c1 + y0, 2 * y1 + c0, y1, c1
+    return 2 * s
 
 s_moins = probl_94_2()
 # 408855758
 print(s_plus + s_moins)
-# 518408346
+# sol = 518408346
 
 
 # %% Problem 95
@@ -312,25 +295,18 @@ with open("p096_sudoku.txt", 'r') as f:
 
 # %% Problem 97
 
-m = 7830457
-print(m == 19 + 34 * 230307)
-
-n = 2 ** 19
-for i in range(230307):
-    n *= 7179869184
-    n %= 10 ** 10
-
+n = pow(2, 7830457, 10**10)
 n *= 28433
 n += 1
 n %= 10 ** 10
-print(n)
+print(n)  # sol = 8739992577
 
 # %% Problem 98
 
 from Tools import is_square
 from os import chdir
 
-chdir("/Users/maximin/Desktop/Euler")
+chdir("/Users/maximin/Desktop/Euler/linked_files")
 
 s = ""
 with open("p098_words.txt") as f:
@@ -338,35 +314,20 @@ with open("p098_words.txt") as f:
         s = i
 L_words = list(eval(s))
 
+d = {}
+for s in L_words:
+    a = list(s)
+    a.sort()
+    a = tuple(a)
+    if a in d:
+        d[a].append(s)
+    else:
+        d[a] = [s]
 
-def has_anagram(s):
-    l = list(s)
-    l.sort()
-    for i in L_words:
-        if i != s:
-            ll = list(i)
-            ll.sort()
-            if ll == l:
-                return True
-    return False
-
-
-L = [s for s in L_words if has_anagram(s)]
-L_by_class = []
-while L:
-    s = L.pop()
-    l_s = [s]
-    l = list(s)
-    l.sort()
-    for i in L:
-        if i != s:
-            ll = list(i)
-            ll.sort()
-            if ll == l:
-                L.remove(i)
-                l_s.append(i)
-    L_by_class.append(l_s)
-
+l_anagrams = []
+for a in d:
+    if len(d[a]) > 1:
+        l_anagrams.append(d[a])
 
 def find_well_distr(s):
     def find_distrib(s):
@@ -405,7 +366,7 @@ def square_anagram(L):
 
 
 L_square = []
-for L in L_by_class:
+for L in l_anagrams:
     if len(L) > 2:
         print(L)
     else:
@@ -442,13 +403,13 @@ print(max([find_square_max(L) for L in L_square]))
 from math import log
 from os import chdir
 
-chdir("/Users/maximin/Desktop/Euler")
+chdir("/Users/maximin/Desktop/Euler/linked_files")
 
 aa, bb = 2, 2
 i_max = -1
 
 with open("p099_base_exp.txt", 'r') as f:
-    i = 0
+    i = 1
     for s in f:
         a, b = eval(s)
         if b * log(a) > bb * log(aa):
@@ -456,4 +417,4 @@ with open("p099_base_exp.txt", 'r') as f:
             i_max = i
         i += 1
 
-print(i_max)
+print(i_max) # sol = 709

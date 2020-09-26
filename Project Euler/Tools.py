@@ -467,3 +467,15 @@ def miller_rabin_pass(a, s, d, n):
             return True
         a_to_power = (a_to_power * a_to_power) % n
     return a_to_power == n - 1
+
+
+def max_path(trig):
+    paths = [trig[0][0]]
+    for line in trig[1:]:
+        paths2 = [line[0] + paths[0]]
+        for i in range(1, len(line) - 1):
+            a = max(paths[i - 1], paths[i])
+            paths2.append(a + line[i])
+        paths2.append(line[-1] + paths[-1])
+        paths = paths2
+    return max(paths)

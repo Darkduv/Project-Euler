@@ -1,84 +1,42 @@
 # %% Problem 120
 
 
-def rest(a, n):
-    if n % 2 == 0:
-        return 2
-    else:
-        return (2 * n * a) % (a**2)
-
-
-def maxi(a):
-    m = 0
-    for n in range(1, 2*a):
-        r = rest(a, n)
-        if r > m:
-            m = r
-    return m
+# r_max(a) = (a-2)*a if a % 2 == 0
+# r_max(a) = (a-1)*a if a % 2 == 1
 
 acc = 0
 for a in range(3, 1001):
-    acc += maxi(a)
-print(acc)
+    acc += a*(a-2+(a % 2))
+print(acc)  # sol = 333082500
 
 
 # %% Problem 121
 
-from itertools import product
+from Tools import fact
 
+l = [1,1]
+for n in range(2, 16):
+    ll = [fact(n)]
+    for k in range(1, n):
+        ll.append(l[k]*n+l[k-1])
+    ll.append(1)
+    l = ll[:]
 
-l_possible = list(product([0, 1], repeat=15))
-
-
-def ok(l):
-    return sum(l) >= 8
-
-
-def prob(l):
-    a = 1
-    b = 1
-    for k, c in enumerate(l):
-        a *= (k + 2)
-        if c == 0:
-            b *= (k+1)
-    return b, a
-
-a, b = 0, 1
-for l in l_possible:
-    if ok(l):
-        c, d = prob(l)
-        a *= d
-        a += b*c
-        b *= d
-print(b//a)
+print(fact(16)//sum(l[8:]))  # sol = 2269
 
 # %% Problem 123
 
+# if n % 2 == 0: reminder = 2
+# else : reminder = 2*n*p_n
 
-L = [2]
-p = 3
-n = 1
-while True:
-    end = False
-    ok = True
-    for j in L:
-        if j ** 2 > p:
-            break
-        if p % j == 0:
-            ok = False
-            break
-    if ok:
-        n += 1
-        L.append(p)
-        if n % 2 == 1 and p > 10 ** 5:
-            if (2 * n * p) % (p ** 2) >= 10 ** 10:
-                print(n)
-                end = True
+from Tools import numpy_sieve
 
-    p += 2
-    if end:
+l = numpy_sieve(10**6)
+for i, p in enumerate(l[1::2]):
+    if 2*(2*i+3)*p > 10**10:
+        print(2 * i + 3)
         break
-
+ # sol = 21035
 
 # %% Problem 124
 

@@ -1,9 +1,6 @@
 # %% Problem 80
 
 
-from math import sqrt
-
-
 def approx(n):
     a = int(sqrt(n))
     if a ** 2 == n:
@@ -256,6 +253,7 @@ print(L[-3:])
 
 
 def nb(m, n):
+    """nb of rectangles contained in a n*m grid"""
     n *= n + 1
     m *= m + 1
     n //= 2
@@ -263,24 +261,24 @@ def nb(m, n):
     return n * m
 
 
-mini = (50, 50)
 nn = 2000000
+limit = int((2*nn**0.5)**0.5)
+mini = (limit, limit)
 mm = abs(nb(*mini) - nn)
-for m in range(1, 2828):
-    for n in range(1, 2828):
-        if abs(nb(m, n) - nn) < mm:
-            mini = (m, n)
-            mm = abs(nb(m, n) - nn)
+for m in range(1, limit):
+    n = int((-1 + (1 + 16*nn / (m*(m+1)))**0.5) / 2)
+    # we should verify both "sides" of the solution,
+    # but it works this way ;p
+    nb_ = nb(m, n)
+    if abs(nb_-nn) < mm:
+        mini = m, n
+        mm = abs(nb_-nn)
+print(mini[0]*mini[1])  # sol = 2772
 
 # %% Problem 86
 
 
 from math import sqrt
-
-
-# %% Problem 86
-
-
 from Tools import is_square
 
 c = 0
@@ -298,26 +296,11 @@ while n < 10**6:
 
 # %% Problem 87
 
-l = [0 for i in range(50000000)]
+from Tools import numpy_sieve
 
+l = [False for i in range(50000000)]
 
-def prime(l, n):
-    for i in l:
-        if n % i == 0:
-            return False
-    return True
-
-
-def create_prime(n):
-    l = [2]
-    a = 3
-    while a <= n:
-        if prime(l, a):
-            l.append(a)
-        a += 2
-    return l
-
-l_pp = create_prime(7070)
+l_pp = list(numpy_sieve(7070))
 for i in l_pp:
     for j in l_pp:
         for k in l_pp:
@@ -325,11 +308,11 @@ for i in l_pp:
             if n >= 50000000:
                 break
             else:
-                l[n] = 1
-        if i ** 2 + j ** 3 >= 50000000:
+                l[n] = True
+        if i ** 2 + j ** 3 + 2**4 > 50000000:
             break
 
-print(l.count(1))
+print(l.count(True))  # sol = 1097343
 
 
 # %% Problem 88
@@ -420,50 +403,38 @@ print(sum(a for a in s))
 
 import os
 
-os.chdir('/Users/tessie/Desktop/Euler')
+os.chdir('/Users/maximin/Desktop/Euler/linked_files')
 with open('p089_roman.txt', 'r') as f:
-    """s = 0
-    a = None
+    s = 0
     for i in f:
         s += len(i[:-1])
-        a = i
-    print(s, a)"""
 
-    with open('p089_roman_right.txt', 'w') as ff:
-        s = 0
-        for i in f:
-            s += len(i[:-1])
+        n = i.find("IIII")
+        if n != -1:
+            i = i[:n] + "IV" + i[n + 4:]
 
-            n = i.find("IIII")
-            if n != -1:
-                i = i[:n] + "IV" + i[n + 4:]
+        n = i.find("VIV")
+        if n != -1:
+            i = i[:n] + "IX" + i[n + 3:]
 
-            n = i.find("VIV")
-            if n != -1:
-                i = i[:n] + "IX" + i[n + 3:]
+        n = i.find("XXXX")
+        if n != -1:
+            i = i[:n] + "XL" + i[n + 4:]
 
-            n = i.find("XXXX")
-            if n != -1:
-                i = i[:n] + "XL" + i[n + 4:]
+        n = i.find("LXL")
+        if n != -1:
+            i = i[:n] + "XC" + i[n + 3:]
 
-            n = i.find("LXL")
-            if n != -1:
-                i = i[:n] + "XC" + i[n + 3:]
+        n = i.find("CCCC")
+        if n != -1:
+            i = i[:n] + "CD" + i[n + 4:]
 
-            n = i.find("CCCC")
-            if n != -1:
-                i = i[:n] + "CD" + i[n + 4:]
+        n = i.find("DCD")
+        if n != -1:
+            i = i[:n] + "CM" + i[n + 3:]
 
-            n = i.find("DCD")
-            if n != -1:
-                i = i[:n] + "CM" + i[n + 3:]
-
-            ff.write(i)
-            print(i)
-
-    with open('p089_roman_right.txt', 'r') as ff:
-        s2 = 0
-        for i in ff:
-            s2 += len(i[:-1])
-        print(s - s2)
+        # ff.write(i)
+        # print(i)
+        s -= len(i[:-1])
+    print(s)  # sol = 743
 

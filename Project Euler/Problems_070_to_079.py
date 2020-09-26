@@ -6,31 +6,54 @@ l_prime = numpy_sieve(4000)
 l_test = []
 n = 10**7
 le = len(l_prime)
+d_phi = {}
 for i in range(le-1):
     for j in range(i+1, le):
         nb = l_prime[i] * l_prime[j]
         if nb < n:
             l_test.append(nb)
+            d_phi[nb] = (l_prime[i] - 1) * (l_prime[j] - 1)
+        else:
+            break
 L_permute = []
 for j in l_test[::-1]:
-    if anagram(j, phi(j)):
+    if anagram(j, d_phi[j]):
         L_permute.append(j)
 
-L_bis = [(i, i/phi(i)) for i in L_permute]
+L_bis = [(i, i/d_phi[i]) for i in L_permute]
 L_bis.sort(key=lambda x: x[1])
 print(L_bis[0])
-
+# sol = 8319823
 
 # %% Problem 71
 
+"""
+looking for a in a, b such as a/b < 3/7 
+<=> 0 < x = (3*b - 7*a)/(7*b). an int k>0 exist such as : 
+k/(7b) =  (3*b - 7*a)/(7*b). 
+k = 3b - 7a. 
+so k - k = 3(b+2k) - 7(a+k) so  3(b+2k) = 7(a+k) = 7*3*c
+thus : a = 3c-k and b = 7c-2k
 
-a, b = 2, 5
-for d in range(9, 1000001):
-    for n in range((a * d) // b, (3 * d) // 7 + 1):
-        if gcd(d, n) == 1:
-            if a*d < n*b:
-                a, b = n, d
-print(a, b)
+and we want x=k/(7*(7c-2k)) to be the smallest possible. 
+
+dx(k)/dk = (3c-k)/(7c-2k)**2 = a/()**2 > 0 
+so x minimal (with c fixed) for k minimal = 1.
+
+then we have a=3c-1 and b = 7c-2. we want a and b <= 10**6, 
+which implies c <= (10**6+2)/7 = 142857,43...
+
+and x = 1/(49c-14) so x minimal for c max.
+"""
+
+c = (10**6+2)//7
+k = 1
+a = 3*c-k # that is the sol.
+b = 7*c-2*k # gcd(b, a) = gcd(b-2a, a) = gcd(c, 3c-1)=gcd(c, c-1)=1
+
+
+# sol = 428570
+
 
 # %% Problem 72
 
@@ -141,7 +164,7 @@ for i in range(2, 101):
         if i > j:
             mat2[i][j] += mat1[i-j][j]
 
-print(mat2[5][5])
+print(mat2[-1][-1]) # sol = 190569291
 
 
 # %% Problem 77

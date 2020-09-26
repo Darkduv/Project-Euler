@@ -54,4 +54,4 @@ for i in range(N):
 s_tot = 0
 for a in lines:
     s_tot += (n_tot - len(lines[a]))*len(lines[a])
-print(s_tot)
+print(s_tot)  #sol = 9669182880384, but this code is taking way too long

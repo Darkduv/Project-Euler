@@ -6,10 +6,9 @@ def f(x):
 
 u0 = -1
 u = u0
-c = u+u0
 for i in range(10**4):
     u0, u = u, f(u)
-    c = u0+u
+c = u0+u
 
 print(c)
 

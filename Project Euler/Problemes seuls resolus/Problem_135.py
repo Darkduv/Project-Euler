@@ -6,6 +6,13 @@ from Tools import numpy_sieve, decompose_tout, timing
 
 @timing
 def p135():
+    """
+    x = y + r,
+    y,
+    z = y - r
+
+    => (4r-y)*y = n
+    """
     l_p = numpy_sieve(10**6)
 
     def nb_ok(n):

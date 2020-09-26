@@ -18,7 +18,7 @@ N = 10**18
 M = 10**6
 
 
-def sol(M, N):
+def sol(M):
     s = 0
     for a in range(1, M+1):
         if a in lp:
@@ -26,7 +26,7 @@ def sol(M, N):
     return s
 
 
-print(sol(M, N))
+print(sol(M))
 
 
 def aux(n):

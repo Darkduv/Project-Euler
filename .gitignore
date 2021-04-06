@@ -1,2 +1,5 @@
 ../*/._*
 */._*
+recovery_key.txt
+*/__pycache*
+.idea/
